@@ -8,7 +8,16 @@ const getAllCandy = async () => {
     return error;
   }
 };
+const getOneCandy = async (candyID) => {
+  try {
+    const oneCandy = await db.one("SELECT * FROM candy WHERE id=$1", candyID);
+    return oneCandy;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   getAllCandy,
+  getOneCandy,
 };

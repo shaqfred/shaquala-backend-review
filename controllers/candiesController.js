@@ -4,7 +4,7 @@ const candies = express.Router();
 const { checkName } = require("../middleware/nameValidation.js");
 const { checkAge } = require("../middleware/ageValidation.js");
 
-const { getAllCandy } = require("../query/candy.js");
+const { getAllCandy, getOneCandy } = require("../query/candy.js");
 
 // candies.get("/", (request, response) => {
 //   response.status(200).json({ message: "Candy Home Page" });
@@ -18,12 +18,14 @@ candies.get("/", async (request, response) => {
   }
 });
 
-candies.get("/:candyID", (request, response) => {
+candies.get("/:candyID", async (request, response) => {
   const candyID = request.params.candyID;
 
   console.log(Number(candyID));
   if (Number(candyID)) {
-    response.status(200).json({ message: candyID });
+    const oneCandy = await getOneCandy(candyID);
+
+    response.status(200).json(oneCandy);
   } else {
     response.status(404).json({
       error: "id must be numeric value",
