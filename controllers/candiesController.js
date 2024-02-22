@@ -4,7 +4,7 @@ const candies = express.Router();
 const { checkName } = require("../middleware/nameValidation.js");
 const { checkAge } = require("../middleware/ageValidation.js");
 
-const { getAllCandy, getOneCandy } = require("../query/candy.js");
+const { getAllCandy, getOneCandy, updateCandy } = require("../query/candy.js");
 
 // candies.get("/", (request, response) => {
 //   response.status(200).json({ message: "Candy Home Page" });
@@ -39,10 +39,16 @@ candies.post("/", checkName, checkAge, (request, response) => {
   response.status(200).json({ message: body });
 });
 
-candies.put("/:candyID", checkName, checkAge, (request, response) => {
+candies.put("/:candyID", async (request, response) => {
   const candyID = request.params.candyID;
   const body = request.body;
-  response.status(200).json({ body, candyID });
+  const updatedCandy = await updateCandy(body, candyID);
+
+  if (updatedCandy.candyID) {
+    response.status(200).json(updatedCandy);
+  } else {
+    response.status(404).json(updatedCandy);
+  }
 });
 
 candies.delete("/:candyID", (request, response) => {

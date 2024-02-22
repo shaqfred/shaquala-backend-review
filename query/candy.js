@@ -16,8 +16,27 @@ const getOneCandy = async (candyID) => {
     return error;
   }
 };
+const updateCandy = async (body, id) => {
+  //CREATE TABLE candy(
+  // id ,
+  // name ,
+  // type ,
+  // cost ,
+  // isFavorite //
+  try {
+    const updatedCandy = await db.one(
+      "UPDATE candy SET name=$1, type=$2, cost=$3, isFavorite=$4 WHERE id=$5 RETURNING *",
+      [body.name, body.type, body.cost, body.isFavorite, id]
+    );
+
+    return updatedCandy;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   getAllCandy,
   getOneCandy,
+  updateCandy,
 };
