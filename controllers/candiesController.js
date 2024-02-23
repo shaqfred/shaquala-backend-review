@@ -4,7 +4,12 @@ const candies = express.Router();
 const { checkName } = require("../middleware/nameValidation.js");
 const { checkAge } = require("../middleware/ageValidation.js");
 
-const { getAllCandy, getOneCandy, updateCandy } = require("../query/candy.js");
+const {
+  getAllCandy,
+  getOneCandy,
+  updateCandy,
+  deleteCandy,
+} = require("../query/candy.js");
 
 // candies.get("/", (request, response) => {
 //   response.status(200).json({ message: "Candy Home Page" });
@@ -51,14 +56,21 @@ candies.put("/:candyID", async (request, response) => {
   }
 });
 
-candies.delete("/:candyID", (request, response) => {
+candies.delete("/:candyID", async (request, response) => {
   const candyID = request.params.candyID;
   if (Number(candyID)) {
-    response.status(200).json({ message: `delete ${candyID}` });
+    const deletedCandy = await deleteCandy(candyID);
+    response.status(200).json(deletedCandy);
+    if (deletedCandy.candyID) {
+      response.status(200).json(deletedCandy);
+    } else {
+      response.status(500).json(deletedCandy);
+    }
   } else {
     response.status(404).json({
-      error: "candy id must be numeric value",
+      error: "candyID must be numeric",
     });
   }
 });
+
 module.exports = candies;

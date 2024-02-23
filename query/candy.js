@@ -34,9 +34,21 @@ const updateCandy = async (body, id) => {
     return error;
   }
 };
+const deleteCandy = async (candyID) => {
+  try {
+    const deletedCandy = db.one(
+      "DELETE FROM candy WHERE id=$1 RETURNING *",
+      candyID
+    );
+    return deletedCandy;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   getAllCandy,
   getOneCandy,
   updateCandy,
+  deleteCandy,
 };
