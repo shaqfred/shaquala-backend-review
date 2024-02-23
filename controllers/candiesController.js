@@ -9,6 +9,7 @@ const {
   getOneCandy,
   updateCandy,
   deleteCandy,
+  createCandy,
 } = require("../query/candy.js");
 
 // candies.get("/", (request, response) => {
@@ -38,10 +39,19 @@ candies.get("/:candyID", async (request, response) => {
   }
 });
 
-candies.post("/", checkName, checkAge, (request, response) => {
+candies.post("/", async (request, response) => {
   const body = request.body;
   // console.log(body);
-  response.status(200).json({ message: body });
+  const newCandy = await createCandy(body);
+  // console.log(newCandy, "post");
+  if (newCandy.candyID) {
+    response.status(200).json(newCandy);
+  } else {
+    response.status(500).json(newCandy);
+  }
+
+  // console.log(body);
+  // response.status(200).json({ message: body });
 });
 
 candies.put("/:candyID", async (request, response) => {

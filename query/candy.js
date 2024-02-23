@@ -45,10 +45,23 @@ const deleteCandy = async (candyID) => {
     return error;
   }
 };
+const createCandy = async (candy) => {
+  try {
+    const newCandy = await db.one(
+      "INSERT INTO candy(name,type,cost,isFavorite) VALUES($1,$2,$3,$4)RETURNING *",
+      [candy.name, candy.type, candy.cost, candy.isFavorite]
+    );
+    // console.log(newCandy);
+    return newCandy;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   getAllCandy,
   getOneCandy,
   updateCandy,
   deleteCandy,
+  createCandy,
 };
