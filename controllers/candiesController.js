@@ -18,7 +18,7 @@ const {
 candies.get("/", async (request, response) => {
   try {
     const allCandy = await getAllCandy();
-    response.status(200).json({ allCandy });
+    response.status(200).json(allCandy);
   } catch (error) {
     response.status(404).json({ message: error });
   }
