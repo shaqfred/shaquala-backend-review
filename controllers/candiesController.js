@@ -44,7 +44,7 @@ candies.post("/", async (request, response) => {
   // console.log(body);
   const newCandy = await createCandy(body);
   // console.log(newCandy, "post");
-  if (newCandy.candyID) {
+  if (newCandy.id) {
     response.status(200).json(newCandy);
   } else {
     response.status(500).json(newCandy);
