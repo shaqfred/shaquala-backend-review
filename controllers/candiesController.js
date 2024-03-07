@@ -25,11 +25,11 @@ candies.get("/", async (request, response) => {
 });
 
 candies.get("/:candyID", async (request, response) => {
-  const candyID = request.params.candyID;
+  const id = request.params.id;
 
-  console.log(Number(candyID));
-  if (Number(candyID)) {
-    const oneCandy = await getOneCandy(candyID);
+  console.log(Number(id));
+  if (Number(id)) {
+    const oneCandy = await getOneCandy(id);
 
     response.status(200).json(oneCandy);
   } else {
@@ -54,24 +54,24 @@ candies.post("/", async (request, response) => {
   // response.status(200).json({ message: body });
 });
 
-candies.put("/:candyID", async (request, response) => {
-  const candyID = request.params.candyID;
+candies.put("/:id", async (request, response) => {
+  const id = request.params.id;
   const body = request.body;
-  const updatedCandy = await updateCandy(body, candyID);
+  const updatedCandy = await updateCandy(body, id);
 
-  if (updatedCandy.candyID) {
+  if (updatedCandy.id) {
     response.status(200).json(updatedCandy);
   } else {
     response.status(404).json(updatedCandy);
   }
 });
 
-candies.delete("/:candyID", async (request, response) => {
-  const candyID = request.params.candyID;
-  if (Number(candyID)) {
-    const deletedCandy = await deleteCandy(candyID);
+candies.delete("/:id", async (request, response) => {
+  const id = request.params.id;
+  if (Number(id)) {
+    const deletedCandy = await deleteCandy(id);
     response.status(200).json(deletedCandy);
-    if (deletedCandy.candyID) {
+    if (deletedCandy.id) {
       response.status(200).json(deletedCandy);
     } else {
       response.status(500).json(deletedCandy);
