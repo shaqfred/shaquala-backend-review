@@ -70,7 +70,7 @@ candies.delete("/:candyID", async (request, response) => {
   const candyID = request.params.candyID;
   if (Number(candyID)) {
     const deletedCandy = await deleteCandy(candyID);
-    response.status(200).json(deletedCandy);
+
     if (deletedCandy.id) {
       response.status(200).json(deletedCandy);
     } else {
