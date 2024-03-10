@@ -59,7 +59,7 @@ candies.put("/:candyID", async (request, response) => {
   const body = request.body;
   const updatedCandy = await updateCandy(body, candyID);
 
-  if (updatedCandy.candyID) {
+  if (updatedCandy.id) {
     response.status(200).json(updatedCandy);
   } else {
     response.status(404).json(updatedCandy);
@@ -71,7 +71,7 @@ candies.delete("/:candyID", async (request, response) => {
   if (Number(candyID)) {
     const deletedCandy = await deleteCandy(candyID);
     response.status(200).json(deletedCandy);
-    if (deletedCandy.candyID) {
+    if (deletedCandy.id) {
       response.status(200).json(deletedCandy);
     } else {
       response.status(500).json(deletedCandy);
